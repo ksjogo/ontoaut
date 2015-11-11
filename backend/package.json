@@ -2,7 +2,10 @@
     "name": "ontoaut-backend",
     "version": "0.0.1",
     "description": "Ontoaut Backend",
-    "scripts": {},
+    "scripts": {
+        "start": "forever start src/index.js",
+        "start-dev": "nodemon --debug src/index.js"
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/ksjogo/ontoaut.git"
@@ -18,8 +21,12 @@
         "babel-preset-es2015": "^6.1.4",
         "contextify": "rvagg/contextify#nan2",
         "express": "^4.13.3",
+        "forever": "^0.15.1",
+        "level-jobs": "^0.5.1",
         "levelgraph": "^1.1.0",
-        "natural": "hugo-ter-doest/"
+        "natural": "hugo-ter-doest/natural"
     },
-    "devDependencies": {}
+    "devDependencies": {
+        "nodemon": "^1.8.1"
+    }
 }

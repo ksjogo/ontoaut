@@ -1,8 +1,21 @@
 import Levelup from 'levelup';
 import Levelgraph from 'levelgraph';
 
-export default class Store {
-    constructor() {
-        this.store = Levelgraph(Levelup('./db'));
+let singleton = Symbol();
+
+export default class Store
+{
+    static get instance()
+    {
+        if (!this[singleton])
+        {
+            this[singleton] = new Store('./data/graph');
+        }
+        return this[singleton];
+    }
+
+    constructor(path)
+    {
+        this.store = Levelgraph(Levelup(path));
     }
 }
