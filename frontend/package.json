@@ -1,0 +1,36 @@
+{
+  "name": "ontoaut-frontend",
+  "version": "0.0.1",
+  "description": "Ontoaut Frontend",
+  "scripts": {
+    "start": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config webpack.config.js --hot --inline ./entry.js",
+    "build": "./node_modules/webpack/bin/webpack.js src/index.js dist/ontoaut-frontend.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ksjogo/ontoaut.git"
+  },
+  "author": "",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/ksjogo/ontoaut/issues"
+  },
+  "homepage": "https://github.com/ksjogo/ontoaut",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-core": "^6.1.4",
+    "babel-loader": "^6.1.0",
+    "babel-plugin-react-transform": "github:chicoxyzzy/babel-plugin-react-transform#babel-6",
+    "babel-preset-es2015": "^6.1.4",
+    "babel-preset-react": "^6.1.4",
+    "babel-preset-react-hmre": "0.0.0",
+    "babel-preset-stage-0": "^6.1.2",
+    "css-loader": "^0.22.0",
+    "react": "^0.14.2",
+    "react-transform-catch-errors": "^1.0.0",
+    "react-transform-hmr": "^1.0.1",
+    "style-loader": "^0.13.0",
+    "webpack": "^1.12.4",
+    "webpack-dev-server": "^1.12.1"
+  }
+}
