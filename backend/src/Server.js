@@ -1,17 +1,15 @@
 import Express from 'express';
 import Store from './Store';
 import Jobs from './Jobs';
+import Analyzer from './Analyzer';
 
-export class Server
+export default class Server
 {
     constructor()
     {
-        // console.log(Store.instance);
-        // console.log(Jobs.instance);
         this.app = Express();
-        this.app.get('/', this.hello.bind(this));
-        this.app.post('/jobsAdd', this.jobsAdd.bind(this));
-        this.app.get('/Jobs', this.jobs.bind(this));
+        this.app.post('/job', this.job.bind(this));
+        this.app.get('/job', this.job.bind(this));
     }
 
     run()
@@ -20,21 +18,26 @@ export class Server
         this.app.listen(3001);
     }
 
-
-    hello(req, res)
+    job(req, res)
     {
-        res.send('hello world');
-    }
+        let immediate = !!req.query.immediate || false;
+        let text =  {text: req.query.text};
 
-    jobsAdd(req, res)
-    {
-        Jobs.instance.push({text: req.text}, err => {
-            res.send(err ? err : 'Added Job');
-        });
-    }
-
-    jobs(req, res)
-    {
-        res.send('hello world');
+        if (text == null || text.length <= 0)
+        {
+            res.status(500).jsonp({error: "No text given!"});
+        }
+        else if (immediate)
+        {
+            (new Analyzer(text)).run((err, result) => {
+                res.jsonp(result);
+            });
+        }
+        else
+        {
+            Jobs.instance.push(text, err => {
+                res.jsonp({});
+            });
+        }
     }
 }

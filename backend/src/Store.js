@@ -1,7 +1,7 @@
 import Levelup from 'levelup';
 import Levelgraph from 'levelgraph';
 
-let singleton = Symbol();
+var singleton = Symbol();
 
 export default class Store
 {
@@ -16,6 +16,6 @@ export default class Store
 
     constructor(path)
     {
-        this.store = Levelgraph(Levelup(path));
+        this.graph = new Levelgraph(Levelup(path));
     }
 }
