@@ -4,33 +4,35 @@
   "description": "Ontoaut Backend",
   "scripts": {
     "start": "forever start src/index.js",
-      "start-dev": "nodemon --debug src/index.js",
-      "test": "./node_modules/nodeunit/bin/nodeunit src/testing.js",
-      "test-inf": "./node_modules/nodemon/bin/nodemon.js ./node_modules/nodeunit/bin/nodeunit src/testing.js"
+    "start-dev": "nodemon --debug src/index.js",
+    "test": "./node_modules/nodeunit/bin/nodeunit src/testing.js",
+    "test-inf": "./node_modules/nodemon/bin/nodemon.js ./node_modules/nodeunit/bin/nodeunit src/testing.js"
   },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/ksjogo/ontoaut.git"
-    },
-    "author": "",
-    "license": "",
-    "bugs": {
-        "url": "https://github.com/ksjogo/ontoaut/issues"
-    },
-    "homepage": "https://github.com/ksjogo/ontoaut",
-    "dependencies": {
-        "babel-core": "^6.1.4",
-        "babel-preset-es2016-node5": "^1.0.1",
-        "contextify": "rvagg/contextify#nan2",
-        "express": "^4.13.3",
-        "forever": "^0.15.1",
-        "level-jobs": "^0.5.1",
-        "levelgraph": "^1.1.0",
-        "natural": "hugo-ter-doest/natural"
-    },
-    "devDependencies": {
-        "node-inspector": "^0.12.3",
-        "nodemon": "^1.8.1",
-        "nodeunit": "^0.9.1"
-    }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ksjogo/ontoaut.git"
+  },
+  "author": "",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/ksjogo/ontoaut/issues"
+  },
+  "homepage": "https://github.com/ksjogo/ontoaut",
+  "dependencies": {
+    "WNdb": "^3.1.1",
+    "babel-core": "^6.1.4",
+    "babel-preset-es2016-node5": "^1.0.1",
+    "contextify": "rvagg/contextify#nan2",
+    "deasync": "^0.1.4",
+    "express": "^4.13.3",
+    "forever": "^0.15.1",
+    "level-jobs": "^0.5.1",
+    "levelgraph": "^1.1.0",
+    "natural": "NaturalNode/natural#master"
+  },
+  "devDependencies": {
+    "node-inspector": "^0.12.3",
+    "nodemon": "^1.8.1",
+    "nodeunit": "^0.9.1"
+  }
 }

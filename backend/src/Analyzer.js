@@ -1,12 +1,48 @@
-import {WordTokenizer, PorterStemmer} from 'natural';
+import {
+    WordTokenizer,
+    PorterStemmer,
+    BrillPOSTagger
+} from 'natural';
+
+var defaultTokenizer = new WordTokenizer(),
+    defaultStemmer = PorterStemmer,
+    path = require('path'),
+    deasync = require('deasync'),
+    posBase = path.normalize(path.join(__dirname, '../node_modules/natural/lib/natural/brill_pos_tagger')),
+    posRules =  path.join(posBase, 'data/English/tr_from_posjs.txt'),
+    posLexicon = path.join(posBase, 'data/English/lexicon_from_posjs.json'),
+    posDefault =  'N',
+    posInited = false,
+    posCb = function(err){
+        if (err)
+            throw err;
+        posInited = true;
+    },
+    defaultPosTagger = new BrillPOSTagger(posLexicon, posRules,  posDefault,  posCb);
 
 export default class Analyzer
 {
+    get tokenizer()
+    {
+        return defaultTokenizer;
+    }
+
+    get stemmer()
+    {
+        return defaultStemmer;
+    }
+
+    get tagger()
+    {
+        return defaultPosTagger;
+    }
+
     constructor(payload)
     {
+        // wait until pos tagger is initialized
+        while(!posInited)
+            deasync.sleep(10);
         this.payload = payload;
-        this.tokenizer = new WordTokenizer();
-        this.stemmer = PorterStemmer;
     }
 
     run(cb)
@@ -18,8 +54,9 @@ export default class Analyzer
         let result = text;
         let tokenized = this.tokenizer.tokenize(text);
         let stemmed = tokenized.map(this.stemmer.stem);
+        let posed = this.tagger.tag(stemmed);
 
-        cb(error, stemmed);
+        cb(error, posed);
     }
 }
 
