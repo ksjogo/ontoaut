@@ -70,9 +70,10 @@ var Tests = {
 
     testRun: function (test)
     {
-        var a = new Analyzer({text: "Some Sentence walking around test"});
+        var a = new Analyzer({text: "Johnny is walking into the house."});
         a.run((err,  result) => {
             console.log(result);
+            test.ok(true);
             test.done();
         });
     }
