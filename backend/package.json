@@ -24,13 +24,14 @@
     "babel-preset-es2016-node5": "^1.0.1",
     "deasync": "^0.1.4",
     "express": "^4.13.3",
+    "express-ws": "^0.2.6",
     "forever": "^0.15.1",
     "level-jobs": "^0.5.1",
     "levelgraph": "^1.1.0",
     "matches": "^0.5.1",
     "muxrpc": "^6.2.1",
     "natural": "NaturalNode/natural#master",
-    "shoe": "0.0.15"
+    "ws": "^0.8.1"
   },
   "devDependencies": {
     "node-inspector": "^0.12.3",

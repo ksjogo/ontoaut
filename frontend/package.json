@@ -17,19 +17,25 @@
   },
   "homepage": "https://github.com/ksjogo/ontoaut",
   "devDependencies": {
-      "babel-core": "^6.1.4",
-      "babel-loader": "^6.1.0",
-      "babel-plugin-react-transform": "github:chicoxyzzy/babel-plugin-react-transform#babel-6",
-      "babel-preset-es2016-node5": "^1.0.1",
-      "babel-preset-react": "^6.1.4",
-      "babel-preset-react-hmre": "0.0.0",
-      "css-loader": "^0.22.0",
-      "react": "^0.14.2",
-      "react-dom": "^0.14.2",
-      "react-transform-catch-errors": "^1.0.0",
-      "react-transform-hmr": "^1.0.1",
-      "style-loader": "^0.13.0",
-      "webpack": "^1.12.4",
-      "webpack-dev-server": "^1.12.1"
+    "babel-core": "^6.1.4",
+    "babel-loader": "^6.1.0",
+    "babel-plugin-react-transform": "github:chicoxyzzy/babel-plugin-react-transform#babel-6",
+    "babel-preset-es2016-node5": "^1.0.1",
+    "babel-preset-react": "^6.1.4",
+    "babel-preset-react-hmre": "0.0.0",
+    "css-loader": "^0.22.0",
+    "json-loader": "^0.5.4",
+    "muxrpc": "^6.2.1",
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2",
+    "react-transform-catch-errors": "^1.0.0",
+    "react-transform-hmr": "^1.0.1",
+    "style-loader": "^0.13.0",
+    "webpack": "^1.12.4",
+    "webpack-dev-server": "^1.12.1",
+    "websocket-pull-stream": "^2.0.12"
+  },
+  "dependencies": {
+    "pull-ws": "^2.1.1"
   }
 }

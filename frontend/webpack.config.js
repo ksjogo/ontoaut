@@ -1,5 +1,8 @@
 module.exports =  {
     module:  {
+        headers: {
+            "Access-Control-Allow-Origin": "*"
+        },
         loaders: [
             {
                 test: /\.jsx?$/,
@@ -9,6 +12,11 @@ module.exports =  {
             {
                 test: /\.css$/,
                 loader: "style!css"
+            },
+            ,
+            {
+                test: /\.json$/,
+                loader: "json"
             }
         ]
     }
