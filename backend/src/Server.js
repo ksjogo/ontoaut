@@ -10,41 +10,39 @@ import pull from 'pull-stream';
 import ws from 'ws';
 import pullWs from 'pull-ws';
 import fs from 'fs';
-
+import Api from './Api';
 
 export default class Server
 {
-    get api()
+    // create a commandStream for each websocket connection
+    get commandStream()
     {
-        return {
-            hello: 'async',
-            stuff: 'source'
-        };
+        var muxrpcinstance = muxrpc(null, Api) (this);
+        return muxrpcinstance.createStream();
     }
 
-    constructor()
-    {
-        this.muxrpc = muxrpc(null, this.api) ({
-            hello: (name, cb) => {
-                cb(null, 'hello, ' + name + '!');
-            },
-            stuff: arg => {
-                return pull.values([arg, 1, 2, 3, 4, 5]);
-            }
-        });
-        this.muxrpcStream = this.muxrpc.createStream();
-    }
-
+        // run server and server command websockets
     run()
     {
         this.socketServer = new ws.Server({port: 3001, origin: '*'});
         this.socketServer.on('connection',  socket => {
             console.log("on connection");
             var transportStream = pullWs(socket);
-            var commandStream = this.muxrpcStream;
-            pull(commandStream, Utility.pullthroughLog, transportStream, Utility.pullthroughLog, commandStream);
+            var commandStream = this.commandStream;
+            pull(commandStream, transportStream, commandStream);
         });
     }
+
+    hello(name, cb)
+    {
+        cb(null, 'hello, ' + name + '!');
+    }
+
+    stuff (arg)
+    {
+        return pull.values([arg, 1, 2, 3, 4, 5]);
+    }
+
 
     job(req, res)
     {
