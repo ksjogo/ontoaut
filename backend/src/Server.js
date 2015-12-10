@@ -2,6 +2,7 @@ import Express from 'express';
 import Store from './Store';
 import Jobs from './Jobs';
 import Analyzer from './Analyzer';
+import Utility from './Utility';
 import http from 'http';
 import shoe from 'shoe';
 import muxrpc from 'muxrpc';
@@ -9,6 +10,7 @@ import pull from 'pull-stream';
 import ws from 'ws';
 import pullWs from 'pull-ws';
 import fs from 'fs';
+
 
 export default class Server
 {
@@ -30,11 +32,7 @@ export default class Server
                 return pull.values([arg, 1, 2, 3, 4, 5]);
             }
         });
-    }
-
-    get commandStream()
-    {
-        return this.muxrpc.createStream();
+        this.muxrpcStream = this.muxrpc.createStream();
     }
 
     run()
@@ -42,12 +40,9 @@ export default class Server
         this.socketServer = new ws.Server({port: 3001, origin: '*'});
         this.socketServer.on('connection',  socket => {
             console.log("on connection");
-            pull(
-                pullWs.source(socket),
-                pull.log()
-                // this.commandStream,
-                // pullWs.sink(socket)
-            );
+            var transportStream = pullWs(socket);
+            var commandStream = this.muxrpcStream;
+            pull(commandStream, Utility.pullthroughLog, transportStream, Utility.pullthroughLog, commandStream);
         });
     }
 
