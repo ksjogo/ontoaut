@@ -1,3 +1,5 @@
+require("babel-core/register");
+
 document.write("<textarea id='text'></textarea><br/>");
 document.write("<input type='submit' onClick='document.send()' value='send'/>");
 

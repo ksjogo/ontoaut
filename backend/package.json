@@ -1,41 +1,40 @@
-ontoaut": "{
-  "name-backend",
+{
+  "name": "ontoaut-backend",
   "version": "0.0.1",
   "description": "Ontoaut Backend",
   "scripts": {
-      "start": "forever start src/index.js; forever --fifo logs 0",
-      "start-dev": "nodemon --debug src/index.js",
-      "test": "./node_modules/nodeunit/bin/nodeunit src/testing.js",
-      "test-inf": "./node_modules/nodemon/bin/nodemon.js ./node_modules/nodeunit/bin/nodeunit src/testing.js"
+    "start": "forever start src/index.js; forever --fifo logs 0",
+    "start-dev": "nodemon --debug src/index.js",
+    "test": "./node_modules/nodeunit/bin/nodeunit src/testing.js",
+    "test-inf": "./node_modules/nodemon/bin/nodemon.js ./node_modules/nodeunit/bin/nodeunit src/testing.js"
   },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/ksjogo/ontoaut.git"
-    },
-    "author": "",
-    "license": "",
-    "bugs": {
-        "url": "https://github.com/ksjogo/ontoaut/issues"
-    },
-    "homepage": "https://github.com/ksjogo/ontoaut",
-    "dependencies": {
-        "WNdb": "^3.1.1",
-        "babel-core": "^6.1.4",
-        "babel-preset-es2016-node5": "^1.0.1",
-        "deasync": "^0.1.4",
-        "express": "^4.13.3",
-        "express-ws": "^0.2.6",
-        "forever": "^0.15.1",
-        "level-jobs": "^0.5.1",
-        "levelgraph": "^1.1.0",
-        "matches": "^0.5.1",
-        "muxrpc": "^6.2.1",
-        "natural": "NaturalNode/natural#master",
-        "ws": "^0.8.1"
-    },
-    "devDependencies": {
-        "node-inspector": "^0.12.3",
-        "nodemon": "^1.8.1",
-        "nodeunit": "^0.9.1"
-    }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ksjogo/ontoaut.git"
+  },
+  "author": "",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/ksjogo/ontoaut/issues"
+  },
+  "homepage": "https://github.com/ksjogo/ontoaut",
+  "dependencies": {
+    "WNdb": "^3.1.1",
+    "babel-core": "^6.1.4",
+    "babel-preset-es2016-node5": "^1.0.1",
+    "body-parser": "^1.14.2",
+    "cors": "^2.7.1",
+    "deasync": "^0.1.4",
+    "express": "^4.13.3",
+    "level-jobs": "^0.6.0",
+    "leveldown": "^1.4.3",
+    "levelgraph": "^1.1.0",
+    "matches": "^0.5.1",
+    "natural": "NaturalNode/natural#master"
+  },
+  "devDependencies": {
+    "node-inspector": "^0.12.3",
+    "nodemon": "^1.8.1",
+    "nodeunit": "^0.9.1"
+  }
 }

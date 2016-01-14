@@ -1,7 +1,7 @@
 import './style.css';
 import React, { Component } from 'react';
 import ReactDOM  from 'react-dom';
-import Connector from './Connector';
+import Remote from './Remote';
 var sharedInstance = null;
 
 export default class Ontoaut extends Component
@@ -11,24 +11,22 @@ export default class Ontoaut extends Component
         ReactDOM.render(<Ontoaut />, document.getElementById(point));
     }
 
-
-    constructor()
-    {
-        super();
-        sharedInstance = this;
-        this.connector = new Connector();
-        this.connector.connect();
-    }
-
     // remote entry for test app
     static send(text)
     {
         sharedInstance.send(text);
     }
 
+    constructor()
+    {
+        super();
+        sharedInstance = this;
+        this.remote = new Remote();
+    }
+
     send(text)
     {
-        this.connector.addJob({text: text}, console.log.bind(console));
+        this.remote.addJob({text: text}, console.log.bind(console));
     }
 
     render()

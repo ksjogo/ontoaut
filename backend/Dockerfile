@@ -6,5 +6,5 @@ WORKDIR /usr/src/app
 ADD . /usr/src/app
 RUN npm install
 
-CMD [ "npm", "run-script", "start-dev" ]
+CMD [ "npm", "start"]
 EXPOSE 3001

@@ -3,45 +3,50 @@ import Store from './Store';
 import Jobs from './Jobs';
 import Analyzer from './Analyzer';
 import Utility from './Utility';
-import http from 'http';
-import muxrpc from 'muxrpc';
-import pull from 'pull-stream';
-import ws from 'ws';
-import pullWs from 'pull-ws';
-import fs from 'fs';
 import Api from './Api';
+import BodyParser from 'body-parser';
+import Cors from 'cors';
 
 export default class Server
 {
-    // create a commandStream for each websocket connection
-    get commandStream()
+    run(port = 3001)
     {
-        var muxrpcinstance = muxrpc(null, Api) (this);
-        return muxrpcinstance.createStream();
+        this.app = Express();
+        this.app.use(BodyParser.json());
+        this.app.use(Cors());
+        this.app.post('/', this.call.bind(this));
+        this.app.listen(port, () => console.log('starting server on ' + port));
     }
 
-    // run server and server command websockets
-    run()
+    call(request, response)
     {
-        console.log('starting server on 3001');
-        this.socketServer = new ws.Server({port: 3001, origin: '*'});
-        this.socketServer.on('connection',  socket => {
-            console.log("on connection");
-            var transportStream = pullWs(socket);
-            var commandStream = this.commandStream;
-            pull(commandStream, transportStream, commandStream);
-        });
+        let {name, args} = request.body;
+        if (typeof this[name] !== 'function')
+        {
+            response.json({success: false, error: 'invalid function name'});
+        }
+        else
+        {
+            args.push(function(){
+                let [err, ...rets] = arguments;
+                if (err)
+                    response.json({success: false, error: err});
+                else
+                    response.json({success: true, data: rets});
+            });
+            this[name].apply(this, args);
+        }
     }
 
     addJob(job, cb)
     {
-        console.log("AddJob:");
-        console.log(job);
-        if (job.text == null || job.text.length <= 0)
-            cb("job needs text",  null);
-        else if (job.immediate)
-            (new Analyzer(job)).run(cb);
-        else
-            Jobs.instance.push(job, cb);
+        let {tablename, content, id, immediate = false} = job;
+        // if (content == null || content.length <= 0)
+        //     cb("need text to analyze",  null);
+        // else if (immediate)
+        //     (new Analyzer(job)).run(cb);
+        // else
+        //     Jobs.instance.push(job, cb);
+        cb(null, "super", "yeah");
     }
 };
