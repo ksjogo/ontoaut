@@ -1,4 +1,5 @@
 export default {
     hello: 'async',
-    stuff: 'source'
+    stuff: 'source',
+    addJob: 'async'
 };

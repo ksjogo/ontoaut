@@ -39,6 +39,7 @@ export default class Analyzer
 
     constructor(payload)
     {
+        console.log(payload);
         // wait until pos tagger is initialized
         while(!posInited)
             deasync.sleep(10);
@@ -52,6 +53,7 @@ export default class Analyzer
         let error = null;
         let text = this.payload.text;
         let result = text;
+        console.log(text);
         let tokenized = this.tokenizer.tokenize(text);
         let stemmed = tokenized.map(this.stemmer.stem);
         let posed = this.tagger.tag(stemmed);

@@ -1,6 +1,7 @@
 import Levelup from 'levelup';
 import LevelJobs from 'level-jobs';
 import Analyzer from './Analyzer';
+import util from 'util';
 
 var singleton = Symbol();
 
@@ -20,7 +21,8 @@ export default class Jobs
 
     worker(payload, cb)
     {
-        console.log("Working: " + payload);
+        console.log("Working: ");
+        console.log(payload);
         let ana = new Analyzer(payload);
         ana.run((err, result) => {
             if (err)
@@ -33,6 +35,11 @@ export default class Jobs
 
     push(payload, cb)
     {
-        this.queue.push(payload, cb);
+        this.queue.push(payload, err => {
+            if (err)
+                console.log("Failed to add job:" + err);
+            else
+                cb (null,  {result: "job added"});
+        });
     }
 }

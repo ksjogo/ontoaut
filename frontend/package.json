@@ -31,10 +31,12 @@
     "react-dom": "^0.14.2",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
+    "reconnecting-websocket": "^1.0.4",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.4",
     "webpack-dev-server": "^1.12.1",
-    "websocket-pull-stream": "^2.0.12"
+    "websocket-pull-stream": "^2.0.12",
+    "ws": "^0.8.1"
   },
   "dependencies": {
     "pull-ws": "^2.1.1"

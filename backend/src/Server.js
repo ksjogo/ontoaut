@@ -4,7 +4,6 @@ import Jobs from './Jobs';
 import Analyzer from './Analyzer';
 import Utility from './Utility';
 import http from 'http';
-import shoe from 'shoe';
 import muxrpc from 'muxrpc';
 import pull from 'pull-stream';
 import ws from 'ws';
@@ -21,9 +20,10 @@ export default class Server
         return muxrpcinstance.createStream();
     }
 
-        // run server and server command websockets
+    // run server and server command websockets
     run()
     {
+        console.log('starting server on 3001');
         this.socketServer = new ws.Server({port: 3001, origin: '*'});
         this.socketServer.on('connection',  socket => {
             console.log("on connection");
@@ -33,37 +33,15 @@ export default class Server
         });
     }
 
-    hello(name, cb)
+    addJob(job, cb)
     {
-        cb(null, 'hello, ' + name + '!');
-    }
-
-    stuff (arg)
-    {
-        return pull.values([arg, 1, 2, 3, 4, 5]);
-    }
-
-
-    job(req, res)
-    {
-        let immediate = !!req.query.immediate || false;
-        let job =  {text:req.query.text};
-
+        console.log("AddJob:");
+        console.log(job);
         if (job.text == null || job.text.length <= 0)
-        {
-            res.status(500).jsonp({error: 'No text given!'});
-        }
-        else if (immediate)
-        {
-            (new Analyzer(job)).run((err, result) => {
-                res.jsonp(result);
-            });
-        }
+            cb("job needs text",  null);
+        else if (job.immediate)
+            (new Analyzer(job)).run(cb);
         else
-        {
-            Jobs.instance.push(job, err => {
-                res.jsonp({});
-            });
-        }
+            Jobs.instance.push(job, cb);
     }
 };

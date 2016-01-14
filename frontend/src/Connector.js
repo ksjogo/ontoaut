@@ -1,46 +1,45 @@
-import shoe from 'shoe';
 import muxrpc from 'muxrpc';
 import pull from 'pull-stream';
 import pullWs from 'pull-ws';
-import toBuffer from 'blob-to-buffer';
 import Utility from './Utility';
 import Api from './Api';
+
 
 export default class Connector
 {
     constructor(host = 'ws://localhost:3001/')
     {
-        var socket = new WebSocket(host);
-
-        var commands = muxrpc(Api, null) ();
-        var commandStream = commands.createStream();
-
+        debugger;
+        this.host = host;
         // export for browser debugging
-        if (window) {
-            window.commands = commands;
+        if (window)
+        {
+            window.connector = this;
             window.pull = pull;
         }
+    }
 
-        // pull ws is returning a blob and no buffer!
-        var blobToBuffer = function (read) {
-            return (end, cb) => {
-                read(end, (end, data) => {
-                    toBuffer(data, cb);
-                });
-            };
-        };
+    connect()
+    {
+        debugger;
+        var socket = new WebSocket(this.host);
+        socket.onopen = (event => {
+            var commands = muxrpc(Api, null) ();
+            var commandStream = commands.createStream();
 
-        pull(commandStream, pullWs(socket), blobToBuffer, commandStream);
+            pull(commandStream, pullWs(socket), Utility.blobToBuffer, commandStream);
 
-        // copy remote api onto self
-        for (var key in commands)
-            if (key in Api)
-                this[key] = commands[key].bind(commands);
-
-        this.hello('world', (err,  result) => {
-            console.log(result);
+            // copy remote api onto self
+            for (var key in commands)
+                if (key in Api)
+                    this[key] = commands[key].bind(commands);
         });
 
-        pull(this.stuff(0), pull.drain(console.log.bind(console)));
-    };
+        socket.onclose = (event => {
+            console.log('socket closed, reconnect in 1 second.', event.reason);
+            setTimeout(() => {
+                this.connect();
+            }, 1000);
+        });
+    }
 }

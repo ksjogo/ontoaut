@@ -5,5 +5,5 @@ document.write("<div id='ontoaut'/>");
 var ontoaut = require('./src/Ontoaut.js').default;
 ontoaut.mount();
 document.send = function(){
-    ontoaut.send(document.getElementById('text'));
+    ontoaut.send(document.getElementById('text').value);
 };

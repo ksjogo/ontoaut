@@ -11,21 +11,24 @@ export default class Ontoaut extends Component
         ReactDOM.render(<Ontoaut />, document.getElementById(point));
     }
 
-    static send(text)
-    {
-        sharedInstance.send(text);
-    }
 
     constructor()
     {
         super();
         sharedInstance = this;
         this.connector = new Connector();
+        this.connector.connect();
+    }
+
+    // remote entry for test app
+    static send(text)
+    {
+        sharedInstance.send(text);
     }
 
     send(text)
     {
-        console.log('innersend');
+        this.connector.addJob({text: text}, console.log.bind(console));
     }
 
     render()
