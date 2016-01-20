@@ -6,15 +6,16 @@ import Utility from './Utility';
 import Api from './Api';
 import BodyParser from 'body-parser';
 import Cors from 'cors';
+import SparQLFake from './sparql/Fake';
 
 export default class Server
 {
     run(port = 3001)
     {
         this.app = Express();
-        this.app.use(BodyParser.json());
         this.app.use(Cors());
-        this.app.post('/', this.call.bind(this));
+        this.app.post('/', BodyParser.json(), this.call.bind(this));
+        this.app.post('/repository/sparql', BodyParser.urlencoded({extended: false}), this.sparqlFake.bind(this));
         this.app.listen(port, () => console.log('starting server on ' + port));
     }
 
@@ -36,6 +37,18 @@ export default class Server
             });
             this[name].apply(this, args);
         }
+    }
+
+    // we return all extracted entites in a matching format
+    // the LKB Gazetter is actually sending proper SparQL
+    // but we do not care about this for the moment
+    sparqlFake(request, response)
+    {
+        console.log(request.headers);
+        console.log(request.body);
+        var faker = new SparQLFake();
+        faker.add('Johnny', 'http://dkd.de/entities/Johnny', 'http://dkd.de/entities/base');
+        response.json(faker.result());
     }
 
     addJob(job, cb)
