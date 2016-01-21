@@ -62,7 +62,7 @@ export default class Ontoaut extends Component
     {
         return (React.createElement('div', {},
              // active entities
-             React.createElement(JsonTable, {rows: this.state.displayedEntities, columns: ['subject', 'class', 'label']}),
+             React.createElement(JsonTable, {rows: this.state.displayedEntities, columns: ['subject', 'cls', 'label']}),
              React.createElement('button', {onClick: this.onUpdate.bind(this), type:'button'}, 'Update!'),
              React.createElement('br', {}),
              // edit form

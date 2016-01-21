@@ -17,11 +17,11 @@ export default class Store
     constructor(path)
     {
         this.graph = new Levelgraph(Levelup(path));
-        this.insertBase('http://dkd.de/entities/Johnny', 'Johnny', (err) => {
-            this.entities((err, result) => {
-                console.log(result);
-            });
-        });
+        // this.insertBase('http://dkd.de/entities/Johnny', 'Johnny', (err) => {
+        //     this.entities((err, result) => {
+        //         console.log(result);
+        //     });
+        // });
     }
 
     v(name){
@@ -43,7 +43,7 @@ export default class Store
         },{
             subject: this.v('subject'),
             predicate: 'class',
-            object: this.v('class')
+            object: this.v('cls')
         }, {
             subject: this.v('subject'),
             predicate: 'label',

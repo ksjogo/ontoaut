@@ -90,7 +90,7 @@ export default class Server
     forceGateReload(cb)
     {
         Request({url: 'http://tomcat:tomcat@gate:8089/manager/text/reload?path=/gate'}, (error, response, body) => {
-            console.log(error, response, body);
+            console.log(body);
             cb("ok");
         });
     }
