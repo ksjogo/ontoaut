@@ -17,6 +17,7 @@ export default class Server
         this.app.post('/', BodyParser.json(), this.call.bind(this));
         this.app.post('/repository/sparql', BodyParser.urlencoded({extended: false}), this.sparqlFake.bind(this));
         this.app.get('/repository/sparql', BodyParser.urlencoded({extended: false}), this.sparqlFake.bind(this));
+        this.app.get('/status', BodyParser.urlencoded({extended: false}), this.status.bind(this));
         this.app.listen(port, () => console.log('starting server on ' + port));
         this.store = Store.instance;
     }
@@ -42,6 +43,11 @@ export default class Server
         }
     }
 
+    status(request, response)
+    {
+        response.json("online");
+    }
+
     // we return all extracted entites in a matching format
     // the LKB Gazetter is actually sending proper SparQL
     // but we do not care about this for the moment
@@ -49,7 +55,7 @@ export default class Server
     {
         console.log(request.headers);
         console.log(request.body);
-            // FIXME: json sparql results are a bit wasteful, but should be fine for the moment
+        // FIXME: json sparql results are a bit wasteful, but should be fine for the moment
         this.store.entities((err, ents) => {
             var faker = new SparQLFake(ents);
             response.json(faker.result());

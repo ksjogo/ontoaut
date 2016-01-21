@@ -34,7 +34,7 @@ export default class Remote
         }
         else
         {
-            $.ajax({url: "http://localhost:3001/",
+            $.ajax({url: "http://localhost:3001/status",
                     type: "HEAD",
                     timeout:1000,
                     statusCode: {
@@ -68,14 +68,14 @@ export default class Remote
                 data: JSON.stringify({name: name, args: args}),
                 contentType:"application/json; charset=utf-8",
                 dataType: 'json'
-        }).done(function(json) {
-            if (!json.success)
-                cb(json.error, null);
-            else
-                cb.call.apply(cb, [null].concat(json.data));
-        }).fail(function(jqxhr, textStatus, error) {
-            cb(textStatus + error,  null);
+            }).done(function(json) {
+                if (!json.success)
+                    cb(json.error, null);
+                else
+                    cb.call.apply(cb, [null].concat(json.data));
+            }).fail(function(jqxhr, textStatus, error) {
+                cb(textStatus + error,  null);
+            });
         });
-    });
-}
+    }
 }
