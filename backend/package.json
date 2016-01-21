@@ -30,7 +30,8 @@
     "leveldown": "~0.10.0",
     "levelgraph": "~1.1.0",
     "matches": "^0.5.1",
-    "natural": "NaturalNode/natural#master"
+    "natural": "NaturalNode/natural#master",
+    "request": "^2.67.0"
   },
   "devDependencies": {
     "node-inspector": "^0.12.3",

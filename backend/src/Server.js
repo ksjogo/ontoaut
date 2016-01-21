@@ -7,6 +7,7 @@ import Api from './Api';
 import BodyParser from 'body-parser';
 import Cors from 'cors';
 import SparQLFake from './sparql/Fake';
+import Request from 'request';
 
 export default class Server
 {
@@ -62,6 +63,12 @@ export default class Server
         });
     }
 
+    // rpc wrapper to return all current entities to frontend
+    entities(cb)
+    {
+        this.store.entities(cb);
+    }
+
     addJob(job, cb)
     {
         let {tablename, content, id, immediate = false} = job;
@@ -73,4 +80,19 @@ export default class Server
         //     Jobs.instance.push(job, cb);
         cb(null, "super", "yeah");
     }
+
+    insertBase(uri, label, cb)
+    {
+        this.store.insertBase(uri, label, cb);
+    }
+
+
+    forceGateReload(cb)
+    {
+        Request({url: 'http://tomcat:tomcat@gate:8089/manager/text/reload?path=/gate'}, (error, response, body) => {
+            console.log(error, response, body);
+            cb("ok");
+        });
+    }
+
 };

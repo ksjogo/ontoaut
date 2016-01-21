@@ -1,6 +1,7 @@
 import './style.css';
 import React, { Component } from 'react';
 import ReactDOM  from 'react-dom';
+import JsonTable  from 'react-json-table';
 import Remote from './Remote';
 var sharedInstance = null;
 
@@ -22,21 +23,67 @@ export default class Ontoaut extends Component
         super();
         sharedInstance = this;
         this.remote = new Remote();
+        this.state = {
+            displayedEntities: null,
+            newEntry: {}
+        };
+        this.onUpdate();
     }
 
-    onSend(text)
+    onUpdate()
     {
-        text = 'fixed';
-        this.remote.addJob({text: text}, console.log.bind(console));
+        this.remote.entities((ent) => {
+            this.setState({displayedEntities: ent});
+        });
+    }
+
+    onNewEntryChange(name)
+    {
+        return (event) => {
+            var n = {};
+            n[name] = event.target.value;
+            this.setState(n);
+        };
+    }
+
+    onSave()
+    {
+        this.remote.insertBase(this.state.subject, this.state.label, (err, result) => {
+            this.onUpdate();
+        });
+    }
+
+    onGateReload()
+    {
+        this.remote.forceGateReload(console.log.bind(console));
     }
 
     render()
     {
-        return (
-            React.createElement('button', {onClick: this.onSend.bind(this), type:'button'}, 'Send!')
-        );
+        return (React.createElement('div', {},
+             // active entities
+             React.createElement(JsonTable, {rows: this.state.displayedEntities, columns: ['subject', 'class', 'label']}),
+             React.createElement('button', {onClick: this.onUpdate.bind(this), type:'button'}, 'Update!'),
+             React.createElement('br', {}),
+             // edit form
+             ['subject', 'label'].map((name) => {
+                 return React.createElement('span',{key: name, title: name}, name, ':',
+                     React.createElement('input', {
+                         type: 'text',
+                         name: name,
+                         value: this.state[name],
+                         onChange: this.onNewEntryChange(name)
+                     })
+                    );
+             }),
+             React.createElement('button', {onClick: this.onSave.bind(this), type:'button'}, 'Save!'),
+             React.createElement('button', {onClick: this.onGateReload.bind(this), type:'button'}, 'GATE Reload!')
+             //
+            ));
     }
 }
+
+
 //Do you hear them calling out my name?
 // TYPO3 might want us and is signalizing that by giving us there define
 if(window && window.TYPO3define)

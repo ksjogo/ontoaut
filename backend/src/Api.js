@@ -1,3 +1,6 @@
 export default {
-    addJob: {}
+    addJob: {},
+    entities: {},
+    insertBase: {},
+    forceGateReload: {}
 };
