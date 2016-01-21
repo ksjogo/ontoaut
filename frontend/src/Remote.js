@@ -26,9 +26,9 @@ export default class Remote
         {
             go();
         }
-        else if (typeof TYPO3 !== 'undefined' || (window && window.parent && window.parent.TYPO3))
+        else if (typeof TYPO3 !== 'undefined')
         {
-            this.hostCached = "../ajax/annotate/ontoaut/relay";
+            this.hostConfigured = TYPO3.settings.ajaxUrls["annotate_ontoaut"];
             this.dataTypeConfigured = 'json';
             go();
         }
@@ -68,14 +68,14 @@ export default class Remote
                 data: JSON.stringify({name: name, args: args}),
                 contentType:"application/json; charset=utf-8",
                 dataType: 'json'
-            }).done(function(json) {
-                if (!json.success)
-                    cb(json.error, null);
-                else
-                    cb.call.apply(cb, [null].concat(json.data));
-            }).fail(function(jqxhr, textStatus, error) {
-                cb(textStatus + error,  null);
-            });
+        }).done(function(json) {
+            if (!json.success)
+                cb(json.error, null);
+            else
+                cb.call.apply(cb, [null].concat(json.data));
+        }).fail(function(jqxhr, textStatus, error) {
+            cb(textStatus + error,  null);
         });
-    }
+    });
+}
 }

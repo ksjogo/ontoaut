@@ -22,6 +22,7 @@ export default class Server
     call(request, response)
     {
         let {name, args} = request.body;
+        console.log('remote call', name, args);
         if (typeof this[name] !== 'function')
         {
             response.json({success: false, error: 'invalid function name'});
