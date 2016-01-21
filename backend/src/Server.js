@@ -16,7 +16,9 @@ export default class Server
         this.app.use(Cors());
         this.app.post('/', BodyParser.json(), this.call.bind(this));
         this.app.post('/repository/sparql', BodyParser.urlencoded({extended: false}), this.sparqlFake.bind(this));
+        this.app.get('/repository/sparql', BodyParser.urlencoded({extended: false}), this.sparqlFake.bind(this));
         this.app.listen(port, () => console.log('starting server on ' + port));
+        this.store = Store.instance;
     }
 
     call(request, response)
@@ -47,9 +49,11 @@ export default class Server
     {
         console.log(request.headers);
         console.log(request.body);
-        var faker = new SparQLFake();
-        faker.add('Johnny', 'http://dkd.de/entities/Johnny', 'http://dkd.de/entities/base');
-        response.json(faker.result());
+            // FIXME: json sparql results are a bit wasteful, but should be fine for the moment
+        this.store.entities((err, ents) => {
+            var faker = new SparQLFake(ents);
+            response.json(faker.result());
+        });
     }
 
     addJob(job, cb)

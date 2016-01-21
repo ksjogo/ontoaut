@@ -26,9 +26,9 @@
     "cors": "^2.7.1",
     "deasync": "^0.1.4",
     "express": "^4.13.3",
-    "level-jobs": "^0.6.0",
-    "leveldown": "^1.4.3",
-    "levelgraph": "^1.1.0",
+    "level-jobs": "~0.6.0",
+    "leveldown": "~0.10.0",
+    "levelgraph": "~1.1.0",
     "matches": "^0.5.1",
     "natural": "NaturalNode/natural#master"
   },
