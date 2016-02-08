@@ -1,2 +1,2 @@
-import Utility from '../../backend/src/Api.js';
-export default Utility;
+import Api from '../../backend/src/Api.js';
+export default Api;

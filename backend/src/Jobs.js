@@ -1,6 +1,6 @@
 import Levelup from 'levelup';
 import LevelJobs from 'level-jobs';
-import Analyzer from './Analyzer';
+import Speech from './Speech';
 import util from 'util';
 
 var singleton = Symbol();
@@ -23,8 +23,7 @@ export default class Jobs
     {
         console.log("Working: ");
         console.log(payload);
-        let ana = new Analyzer(payload);
-        ana.run((err, result) => {
+        Speech.pos(payload, (err, result) => {
             if (err)
                 console.log("Failed: " + payload);
             else

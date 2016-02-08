@@ -1,7 +1,6 @@
 import Express from 'express';
 import Store from './Store';
 import Jobs from './Jobs';
-import Analyzer from './Analyzer';
 import Utility from './Utility';
 import Api from './Api';
 import BodyParser from 'body-parser';
@@ -71,28 +70,27 @@ export default class Server
 
     addJob(job, cb)
     {
-        let {tablename, content, id, immediate = false} = job;
-        // if (content == null || content.length <= 0)
-        //     cb("need text to analyze",  null);
-        // else if (immediate)
-        //     (new Analyzer(job)).run(cb);
-        // else
-        //     Jobs.instance.push(job, cb);
-        cb(null, "super", "yeah");
+        let {tablename, id, content, immediate = false} = job;
+        if (content == null || content.length <= 0)
+            cb("need text to analyze",  null);
+        else if (immediate)
+            cb(null,  "analyzed!s");
+        else
+            Jobs.instance.push(job, cb);
     }
 
     insertBase(uri, label, cb)
-    {
-        this.store.insertBase(uri, label, cb);
-    }
+{
+    this.store.insertBase(uri, label, cb);
+}
 
 
-    forceGateReload(cb)
-    {
-        Request({url: 'http://tomcat:tomcat@gate:8089/manager/text/reload?path=/gate'}, (error, response, body) => {
-            console.log(body);
-            cb("ok");
-        });
-    }
+forceGateReload(cb)
+{
+    Request({url: 'http://tomcat:tomcat@gate:8089/manager/text/reload?path=/gate'}, (error, response, body) => {
+        console.log(body);
+        cb("ok");
+    });
+}
 
 };

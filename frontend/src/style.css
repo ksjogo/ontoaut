@@ -1,2 +1,5 @@
-body {
+.jsonTable
+{
+    border-collapse: separate;
+    border-spacing: 5px 40px;
 }

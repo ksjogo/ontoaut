@@ -72,7 +72,7 @@ export default class Remote
                 if (!json.success)
                     cb(json.error, null);
                 else
-                    cb.call.apply(cb, [null].concat(json.data));
+                    cb.apply(cb, [null].concat(json.data));
             }).fail(function(jqxhr, textStatus, error) {
                 cb(textStatus + error,  null);
             });

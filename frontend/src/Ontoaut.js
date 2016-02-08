@@ -1,8 +1,10 @@
 import './style.css';
 import React, { Component } from 'react';
+import autobind from 'autobind-decorator';
 import ReactDOM  from 'react-dom';
 import JsonTable  from 'react-json-table';
 import Remote from './Remote';
+import Submittor from './Submittor';
 var sharedInstance = null;
 
 export default class Ontoaut extends Component
@@ -62,6 +64,7 @@ export default class Ontoaut extends Component
     {
         return (React.createElement('div', {},
              // active entities
+             React.createElement(Submittor,  {remote: this.remote}),
              React.createElement(JsonTable, {rows: this.state.displayedEntities, columns: ['subject', 'cls', 'label']}),
              React.createElement('button', {onClick: this.onUpdate.bind(this), type:'button'}, 'Update!'),
              React.createElement('br', {}),
