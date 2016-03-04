@@ -26,21 +26,21 @@ export default class Server
     {
         let {name, args} = request.body;
         console.log('remote call', name, args);
-        if (typeof this[name] !== 'function')
-        {
-            response.json({success: false, error: 'invalid function name'});
-        }
-        else
-        {
-            args.push(function(){
-                let [err, ...rets] = arguments;
-                if (err)
-                    response.json({success: false, error: err});
-                else
-                    response.json({success: true, data: rets});
-            });
-            this[name].apply(this, args);
-        }
+        if (Api[name] === undefined)
+            return response.json({success: false, error: 'client error: function undefined: ' + name});
+
+        let target = Api[name] ? this[Api[name]] : this;
+        if (typeof target[name] !== 'function' || target[name] == null)
+            return response.json({success: false, error: 'server error: invalid function name: ' + name});
+
+        args.push(function(){
+            let [err, ...rets] = arguments;
+            if (err)
+                response.json({success: false, error: err});
+            else
+                response.json({success: true, data: rets});
+        });
+        return target[name].apply(target, args);
     }
 
     status(request, response)
@@ -62,35 +62,23 @@ export default class Server
         });
     }
 
-    // rpc wrapper to return all current entities to frontend
-    entities(cb)
-    {
-        this.store.entities(cb);
-    }
-
     addJob(job, cb)
     {
         let {tablename, id, content, immediate = false} = job;
         if (content == null || content.length <= 0)
             cb("need text to analyze",  null);
         else if (immediate)
-            cb(null,  "analyzed!s");
+            Jobs.instance.worker(job, cb);
         else
             Jobs.instance.push(job, cb);
     }
 
-    insertBase(uri, label, cb)
-{
-    this.store.insertBase(uri, label, cb);
-}
-
-
-forceGateReload(cb)
-{
-    Request({url: 'http://tomcat:tomcat@gate:8089/manager/text/reload?path=/gate'}, (error, response, body) => {
-        console.log(body);
-        cb("ok");
-    });
-}
+    forceGateReload(cb)
+    {
+        Request({url: 'http://tomcat:tomcat@gate:8089/manager/text/reload?path=/gate'}, (error, response, body) => {
+            console.log(body);
+            cb("ok");
+        });
+    }
 
 };

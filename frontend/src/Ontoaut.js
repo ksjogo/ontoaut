@@ -9,6 +9,10 @@ var sharedInstance = null;
 
 export default class Ontoaut extends Component
 {
+    get entitytypes(){
+        return ['entities'];
+    }
+
     static mount(point = 'ontoautMountpoint')
     {
         ReactDOM.render(React.createElement(Ontoaut, null), document.getElementById(point));
@@ -26,7 +30,6 @@ export default class Ontoaut extends Component
         sharedInstance = this;
         this.remote = new Remote();
         this.state = {
-            displayedEntities: null,
             newEntry: {}
         };
         this.onUpdate();
@@ -34,8 +37,14 @@ export default class Ontoaut extends Component
 
     onUpdate()
     {
-        this.remote.entities((ent) => {
-            this.setState({displayedEntities: ent});
+        this.entitytypes.forEach(name => {
+            this.remote[name]((err, ents) => {
+                if (err)
+                    console.log(err);
+                let state = {};
+                state[name] = ents || [];
+                this.setState(state);
+            });
         });
     }
 
@@ -50,8 +59,11 @@ export default class Ontoaut extends Component
 
     onSave()
     {
-        this.remote.insertBase(this.state.subject, this.state.label, (err, result) => {
-            this.onUpdate();
+        this.remote.insertConfirmed(this.state.subject, this.state.label, (err, result) => {
+            if (err)
+                this.flash(err);
+            else
+                this.onUpdate();
         });
     }
 
@@ -60,12 +72,21 @@ export default class Ontoaut extends Component
         this.remote.forceGateReload(console.log.bind(console));
     }
 
+    flash(error)
+    {
+        alert(error);
+    }
+
     render()
     {
         return (React.createElement('div', {},
              // active entities
-             React.createElement(Submittor,  {remote: this.remote}),
-             React.createElement(JsonTable, {rows: this.state.displayedEntities, columns: ['subject', 'cls', 'label']}),
+             React.createElement(Submittor,  {remote: this.remote, update: this.onUpdate.bind(this)}),
+             this.entitytypes.map(type => {
+                 return React.createElement('div', {},
+                     React.createElement('h3', {}, type),
+                     React.createElement(JsonTable, {rows: this.state[type], columns: ['subject', 'state', 'label', 'cls']})
+                    );}),
              React.createElement('button', {onClick: this.onUpdate.bind(this), type:'button'}, 'Update!'),
              React.createElement('br', {}),
              // edit form

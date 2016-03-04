@@ -74,7 +74,7 @@ export default class Remote
                 else
                     cb.apply(cb, [null].concat(json.data));
             }).fail(function(jqxhr, textStatus, error) {
-                cb(textStatus + error,  null);
+                cb(textStatus + error + 'in ajax transport',  null);
             });
         });
     }

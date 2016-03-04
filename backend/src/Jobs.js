@@ -2,6 +2,7 @@ import Levelup from 'levelup';
 import LevelJobs from 'level-jobs';
 import Speech from './Speech';
 import util from 'util';
+import work from './Work';
 
 var singleton = Symbol();
 
@@ -19,19 +20,6 @@ export default class Jobs
         this.queue = new LevelJobs(Levelup(path), this.worker.bind(this));
     }
 
-    worker(payload, cb)
-    {
-        console.log("Working: ");
-        console.log(payload);
-        Speech.pos(payload, (err, result) => {
-            if (err)
-                console.log("Failed: " + payload);
-            else
-                console.log("Finished: " + payload);
-            cb();
-        });
-    }
-
     push(payload, cb)
     {
         this.queue.push(payload, err => {
@@ -40,5 +28,10 @@ export default class Jobs
             else
                 cb (null,  {result: "job added"});
         });
+    }
+
+    worker(payload, cb)
+    {
+        work(payload, cb);
     }
 }

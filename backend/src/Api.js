@@ -1,6 +1,6 @@
 export default {
-    addJob: {},
-    entities: {},
-    insertBase: {},
-    forceGateReload: {}
+    addJob: null,
+    forceGateReload: null,
+    entities: 'store',
+    insertConfirmed: 'store'
 };

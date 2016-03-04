@@ -5,6 +5,19 @@ var singleton = Symbol();
 
 export default class Store
 {
+    static get uriState()
+    {
+        return {
+            confirmed: 'confirmed',
+            unconfirmed: 'unconfirmed',
+            external: 'external'
+        };
+    }
+
+    get uriState(){
+        return Store.uriState;
+    }
+
     static get instance()
     {
         if (!this[singleton])
@@ -17,37 +30,87 @@ export default class Store
     constructor(path)
     {
         this.graph = new Levelgraph(Levelup(path));
-        // this.insertBase('http://dkd.de/entities/Johnny', 'Johnny', (err) => {
-        //     this.entities((err, result) => {
-        //         console.log(result);
-        //     });
-        // });
     }
 
     v(name){
         return this.graph.v(name);
     }
 
-    insertBase(uri, label, cb)
+    insertUri(uri, label, state, cb)
     {
-        var triple1 = { subject: uri, predicate: 'class', object: 'http://dkd.de/entities/base' };
+        var triple1 = { subject: uri, predicate: 'state', object: state};
         var triple2 = { subject: uri, predicate: 'label', object: label };
-        this.graph.put([triple1, triple2], cb);
+        this.graph.put([triple1, triple2], (err) => {
+            console.log('inserted ' + uri + '  ' + state + ' ' +  err);
+            cb(err);
+        });
     }
 
-    entities(cb){
+    insertConfirmed(uri, label, cb)
+    {
+        this.insertUri(uri, label, this.uriState.confirmed, cb);
+    }
+
+    insertUnconfirmed(uri, label, cb)
+    {
+        this.insertUri(uri, label, this.uriState.unconfirmed, cb);
+    }
+
+    insertExternal(uri, label, cb)
+    {
+        this.insertUri(uri, label, this.uriState.external, cb);
+    }
+
+    entities(cb)
+    {
         this.graph.search([{
             subject: this.v('subject'),
-            predicate: 'class',
-            object: 'http://dkd.de/entities/base'
-        },{
-            subject: this.v('subject'),
-            predicate: 'class',
-            object: this.v('cls')
+            predicate: 'state',
+            object: this.v('state')
         }, {
             subject: this.v('subject'),
             predicate: 'label',
             object: this.v('label')
-        }], cb);
+        }], (err, res) => {
+            res.forEach((ent) => {
+                ent.cls = 'http://dkd.de/base';
+            });
+            console.log("ents returned:", err, res);
+            cb(err, res);
+        });
+    }
+
+    confirmedEntities(cb)
+    {
+        this.graph.search([{
+            subject: this.v('subject'),
+            predicate: 'state',
+            object: this.uriState.confirmedEntities
+        }, {
+            subject: this.v('subject'),
+            predicate: 'label',
+            object: this.v('label')
+        }], (err, res) => {
+            res.forEach((ent) => {
+                ent.cls = 'http://dkd.de/base';
+            });
+            console.log("ents returned:", err, res);
+            cb(err, res);
+        });
+    }
+
+
+    stateForEntity(uri, cb)
+    {
+        this.graph.get({
+            subject: uri
+        }, (err, results) => {
+            if (err)
+                return cb(err);
+            if (results.length > 0)
+                return cb(null, results[0].state);
+            else
+                return cb(null, null);
+        });
     }
 }

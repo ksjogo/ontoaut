@@ -17,6 +17,7 @@ export default class Submittor extends Component
         let input = this.state.input;
         this.props.remote.addJob({immediate: true, content: input}, (err, result) => {
             this.setState({result: result || err});
+            this.props.update();
         });
     }
 
