@@ -78,7 +78,7 @@ export default class Ontoaut extends Component
 
     render()
     {
-        return (React.createElement('div', {},
+        return (React.createElement('div', {className: 'ontoaut'},
              React.createElement(Submittor,  {remote: this.remote, update: this.onUpdate.bind(this)}),
              this.entitytypes.map(type => {
                  return React.createElement('div', {},
