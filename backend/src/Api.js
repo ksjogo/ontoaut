@@ -1,6 +1,8 @@
 export default {
     addJob: null,
     forceGateReload: null,
-    entities: 'store',
+    confirmedEntities: 'store',
+    unconfirmedEntities: 'store',
+    externalEntities: 'store',
     insertConfirmed: 'store'
 };

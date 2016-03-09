@@ -5,12 +5,13 @@ import ReactDOM  from 'react-dom';
 import JsonTable  from 'react-json-table';
 import Remote from './Remote';
 import Submittor from './Submittor';
+import Entities from './Entities';
 var sharedInstance = null;
 
 export default class Ontoaut extends Component
 {
     get entitytypes(){
-        return ['entities'];
+        return ['unconfirmedEntities', 'confirmedEntities', 'externalEntities'];
     }
 
     static mount(point = 'ontoautMountpoint')
@@ -57,7 +58,7 @@ export default class Ontoaut extends Component
 
     onSave()
     {
-        this.remote.insertConfirmed(this.state.subject, this.state.label, (err, result) => {
+        this.remote.insertConfirmed(this.state.subject, this.state.label, this.state.cls, (err, result) => {
             if (err)
                 this.flash(err);
             else
@@ -78,17 +79,15 @@ export default class Ontoaut extends Component
     render()
     {
         return (React.createElement('div', {},
-             // active entities
              React.createElement(Submittor,  {remote: this.remote, update: this.onUpdate.bind(this)}),
              this.entitytypes.map(type => {
                  return React.createElement('div', {},
-                     React.createElement('h3', {}, type),
-                     React.createElement(JsonTable, {rows: this.state[type], columns: ['subject', 'state', 'label', 'cls']})
+                     React.createElement('h1', {}, type),
+                     React.createElement(Entities, {entities: this.state[type] || []})
                     );}),
              React.createElement('button', {onClick: this.onUpdate.bind(this), type:'button'}, 'Update!'),
-             React.createElement('br', {}),
-             // edit form
-             ['subject', 'label'].map((name) => {
+             React.createElement('h1', {}, 'Manual'),
+             ['subject', 'label', 'cls'].map((name) => {
                  return React.createElement('span',{key: name, title: name}, name, ':',
                      React.createElement('input', {
                          type: 'text',
@@ -103,7 +102,6 @@ export default class Ontoaut extends Component
             ));
     }
 }
-
 
 //Do you hear them calling out my name?
 // TYPO3 might want us and is signalizing that by giving us their define

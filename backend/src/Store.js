@@ -67,47 +67,40 @@ export default class Store
         this.insertBase(uri, label, this.uriState.external, cls, cb);
     }
 
-    entities(cb)
+    stateSearch(state, cb)
     {
         let s = this.v('subject');
         this.graph.search([{
             subject: s,
             predicate: 'state',
-            object: this.v('state')
-        }, {
+            object: state
+        },{
             subject: s,
             predicate: 'label',
             object: this.v('label')
-        }, {
+        },{
             subject: s,
             predicate: 'class',
             object: this.v('cls')
         }], (err, res) => {
-            console.log("ents returned: " +  res.length, err);
+            console.log("ents returned: " + res.length, err);
             cb(err, res);
         });
     }
 
     confirmedEntities(cb)
     {
-        let s = this.v('subject');
-        this.graph.search([{
-            subject: s,
-            predicate: 'state',
-            object: this.uriState.confirmed
-        },{
-            subject: s,
-            predicate: 'label',
-            object: this.v('label')
-        },{
-            subject: s,
-            predicate: 'class',
-            object: this.v('cls')
-        }], (err, res) => {
-            console.log(res);
-            console.log("ents returned: " + res.length, err);
-            cb(err, res);
-        });
+        this.stateSearch(this.uriState.confirmed, cb);
+    }
+
+    unconfirmedEntities(cb)
+    {
+        this.stateSearch(this.uriState.unconfirmed, cb);
+    }
+
+    externalEntities(cb)
+    {
+        this.stateSearch(this.uriState.external, cb);
     }
 
     stateForEntity(uri, cb)

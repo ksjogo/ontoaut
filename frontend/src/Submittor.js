@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import autobind from 'autobind-decorator';
+import Result from './Result';
 
 export default class Submittor extends Component
 {
@@ -16,7 +16,7 @@ export default class Submittor extends Component
     {
         let input = this.state.input;
         this.props.remote.addJob({immediate: true, content: input}, (err, result) => {
-            this.setState({result: result || err});
+            this.setState({result: JSON.parse(result) || err});
             this.props.update();
         });
     }
@@ -29,9 +29,10 @@ export default class Submittor extends Component
     render()
     {
         return React.createElement('div', {},
+            React.createElement('h1', {}, 'Submittor'),
             React.createElement('textarea', {value: this.state.input, onChange: this.onChange.bind(this)}),
             React.createElement('br', {}),
-            React.createElement('p', {}, this.state.result),
+            React.createElement(Result, {result: this.state.result}),
             React.createElement('br', {}),
             React.createElement('button', {onClick: this.onSubmit.bind(this)}, 'Submit')
            );
