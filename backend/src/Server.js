@@ -56,7 +56,7 @@ export default class Server
         console.log(request.headers);
         console.log(request.body);
         // FIXME: json sparql results are a bit wasteful, but should be fine for the moment
-        this.store.entities((err, ents) => {
+        this.store.confirmedEntities((err, ents) => {
             var faker = new SparQLFake(ents);
             response.json(faker.result());
         });

@@ -19,9 +19,9 @@
   },
   "homepage": "https://github.com/ksjogo/ontoaut",
   "dependencies": {
-    "WNdb": "^3.1.1",
     "babel-core": "^6.1.4",
     "babel-preset-es2016-node5": "^1.0.1",
+    "bluebird": "^3.3.3",
     "body-parser": "^1.14.2",
     "cors": "^2.7.1",
     "deasync": "^0.1.4",
@@ -31,9 +31,10 @@
     "leveldown": "^0.10.6",
     "levelgraph": "~1.1.0",
     "matches": "^0.5.1",
-    "natural": "NaturalNode/natural#master",
     "nlp_compromise": "^2.0.3",
-    "request": "^2.67.0"
+    "node-wordnet": "^0.1.11",
+    "request": "^2.67.0",
+    "wndb-with-exceptions": "^3.0.1"
   },
   "devDependencies": {
     "node-inspector": "^0.12.3",

@@ -1,6 +1,5 @@
 import Levelup from 'levelup';
 import LevelJobs from 'level-jobs';
-import Speech from './Speech';
 import util from 'util';
 import work from './Work';
 

@@ -50,10 +50,8 @@ export default class Ontoaut extends Component
 
     onNewEntryChange(name)
     {
-        return (event) => {
-            var n = {};
-            n[name] = event.target.value;
-            this.setState(n);
+        return event => {
+            this.setState({[name]: event.target.value});
         };
     }
 
@@ -102,14 +100,13 @@ export default class Ontoaut extends Component
              }),
              React.createElement('button', {onClick: this.onSave.bind(this), type:'button'}, 'Save!'),
              React.createElement('button', {onClick: this.onGateReload.bind(this), type:'button'}, 'GATE Reload!')
-             //
             ));
     }
 }
 
 
 //Do you hear them calling out my name?
-// TYPO3 might want us and is signalizing that by giving us there define
+// TYPO3 might want us and is signalizing that by giving us their define
 if(window && window.TYPO3define)
     window.TYPO3define('TYPO3/CMS/Annotate/OntoautLib', [], function() {
         return Ontoaut;

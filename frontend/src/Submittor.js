@@ -7,7 +7,7 @@ export default class Submittor extends Component
     {
         super(props);
         this.state = {
-            input: "murks",
+            input: '<span resource="http://dbpedia.org/resource/Berlin" vocab="http://dbpedia.org/ontology/">Berlin</span> is some city. <span resource="http://dbpedia.org/resource/Angela_Merkel" vocab="http://dbpedia.org/ontology/">Angela Merkel</span> is stupid.',
             result: []
         };
     }
