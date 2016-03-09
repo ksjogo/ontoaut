@@ -4,5 +4,6 @@ export default {
     confirmedEntities: 'store',
     unconfirmedEntities: 'store',
     externalEntities: 'store',
-    insertConfirmed: 'store'
+    insertConfirmed: 'store',
+    confirm: 'store'
 };

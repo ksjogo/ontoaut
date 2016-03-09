@@ -129,4 +129,20 @@ export default class Store
             cb(err, err || (res.length > 0 && res.map(entry => entry.subject)) || null);
         });
     }
+
+    confirm(subject, cb)
+    {
+        let old = { subject: subject, predicate: 'state', object: this.uriState.unconfirmed},
+            rep = { subject: subject, predicate: 'state', object: this.uriState.confirmed};
+
+        this.graph.del(old, err => {
+            if (err)
+                cb('deletion failed');
+            else
+                this.graph.put(rep, err => {
+                    cb(null, 'ok');
+                });
+        });
+    }
+
 }

@@ -25,9 +25,9 @@ export default class Ontoaut extends Component
         sharedInstance.send(text);
     }
 
-    constructor()
+    constructor(props)
     {
-        super();
+        super(props);
         sharedInstance = this;
         this.remote = new Remote();
         this.state = {
@@ -83,7 +83,7 @@ export default class Ontoaut extends Component
              this.entitytypes.map(type => {
                  return React.createElement('div', {},
                      React.createElement('h1', {}, type),
-                     React.createElement(Entities, {entities: this.state[type] || []})
+                     React.createElement(Entities, {type: type, entities: this.state[type] || [], remote: this.remote, update: this.onUpdate.bind(this)})
                     );}),
              React.createElement('button', {onClick: this.onUpdate.bind(this), type:'button'}, 'Update!'),
              React.createElement('h1', {}, 'Manual'),
