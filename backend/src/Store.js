@@ -145,4 +145,14 @@ export default class Store
         });
     }
 
+    entity(uri, cb)
+    {
+        this.graph.search([{
+            subject: uri,
+            predicate: this.v('predicate'),
+            object: this.v('object')
+        }], (err, res) => {
+            cb(err, err || (res.length > 0 && res) || null);
+        });
+    }
 }

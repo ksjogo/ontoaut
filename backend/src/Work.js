@@ -1,6 +1,10 @@
 import StoreClass from './Store';
 import async from 'async';
-let Store = StoreClass.instance;
+let Store = null;
+if (!(require.main === module))
+{
+    Store = StoreClass.instance;
+}
 import parse from './parse';
 import Nlp from 'nlp_compromise/src/index';
 import Noun from 'nlp_compromise/src/term/noun/noun';
@@ -8,7 +12,6 @@ import Organisation from 'nlp_compromise/src/term/noun/organisation/organisation
 import Person from 'nlp_compromise/src/term/noun/person/person';
 import Place from 'nlp_compromise/src/term/noun/place/place';
 import Wordnet from 'node-wordnet';
-let wordnet = new Wordnet();
 
 var base = 'http://dkd.de/ontoaut/';
 
@@ -54,7 +57,7 @@ function ensureExistance(ent, cb)
 
 function stripExclamationPointSigns(label)
 {
-    return (label.slice(-1).match(/!|\.|\?/)) ? label.slice(0, -1) : label;
+    return (label.slice(-1).match(/!|\.|\?|,/)) ? label.slice(0, -1) : label;
 }
 
 
@@ -77,8 +80,7 @@ function terminator(term, cb)
     else Store.entitiesForLabel(label, (err, ents) => {
         if (ents)
             dropped(term, 'known', cb);
-        else wordnet.lookup(label, result => {
-            console.log(result);
+        else (new Wordnet()).lookup(label, result => {
             if (result.length > 0)
                 dropped(term, 'wordnetted', cb);
             else
@@ -100,4 +102,8 @@ function emerger(term, cb)
         else
             added(term, type, cb);
     });
+}
+
+if (require.main === module)
+{
 }

@@ -1,0 +1,26 @@
+{
+  "head" : {
+    "vars" : [
+        "predicate",
+        "object"
+    ]
+  },
+    "results" : {
+        "bindings" : [
+            {
+                "Name" : {
+                    "type" : "literal",
+                    "value" : "Cirrhigaleus australis"
+                },
+                "Thing" : {
+                    "type" : "uri",
+                    "value" : "http://dbpedia.org/resource/Cirrhigaleus_australis"
+                },
+                "Cls" : {
+                    "type" : "uri",
+                    "value" : "http://dbpedia.org/ontology/Fish"
+                }
+            }
+        ]
+    }
+}

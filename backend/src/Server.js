@@ -5,7 +5,8 @@ import Utility from './Utility';
 import Api from './Api';
 import BodyParser from 'body-parser';
 import Cors from 'cors';
-import SparQLFake from './sparql/Fake';
+import SparqlEntities from './sparql/Entities';
+import SparqlEntity from './sparql/Entity';
 import Request from 'request';
 
 export default class Server
@@ -15,8 +16,9 @@ export default class Server
         this.app = Express();
         this.app.use(Cors());
         this.app.post('/', BodyParser.json(), this.call.bind(this));
-        this.app.post('/repository/sparql', BodyParser.urlencoded({extended: false}), this.sparqlFake.bind(this));
-        this.app.get('/repository/sparql', BodyParser.urlencoded({extended: false}), this.sparqlFake.bind(this));
+        this.app.post('/repository/sparql', BodyParser.urlencoded({extended: false}), this.entities.bind(this));
+        this.app.get('/repository/sparql', BodyParser.urlencoded({extended: false}), this.entities.bind(this));
+        this.app.get('/repository/entity/:uri', this.entity.bind(this));
         this.app.get('/status', BodyParser.urlencoded({extended: false}), this.status.bind(this));
         this.app.listen(port, () => console.log('starting server on ' + port));
         this.store = Store.instance;
@@ -51,14 +53,22 @@ export default class Server
     // we return all extracted entites in a matching format
     // the LKB Gazetter is actually sending proper SparQL
     // but we do not care about this for the moment
-    sparqlFake(request, response)
+    entities(request, response)
     {
-        console.log(request.headers);
-        console.log(request.body);
-        // FIXME: json sparql results are a bit wasteful, but should be fine for the moment
         this.store.confirmedEntities((err, ents) => {
-            var faker = new SparQLFake(ents);
-            response.json(faker.result());
+            var sparqlized = new SparqlEntities(ents);
+            response.json(sparqlized.result());
+        });
+    }
+
+    entity(request, response)
+    {
+        let ent = 'http://dkd.de/ontoaut/' + request.params.uri;
+        console.log(ent);
+        this.store.entity(ent, (err, props) => {
+            console.log(err, props);
+            var sparqlized = new SparqlEntity(props);
+            response.json(sparqlized.result());
         });
     }
 
