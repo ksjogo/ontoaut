@@ -2,7 +2,6 @@ import './style.css';
 import React, { Component } from 'react';
 import autobind from 'autobind-decorator';
 import ReactDOM  from 'react-dom';
-import JsonTable  from 'react-json-table';
 import Remote from './Remote';
 import Submittor from './Submittor';
 import Entities from './Entities';
@@ -39,13 +38,17 @@ export default class Ontoaut extends Component
     onUpdate()
     {
         this.entitytypes.forEach(name => {
-            this.remote[name]((err, ents) => {
-                if (err)
-                    console.log(err);
+            //this.remote[name]((err, ents) => {
+            //    if (err)
+            //        console.log(err);
+            setImmediate(() => {
+            let ents = [{label:"test", subject:"http://dkd.de/Murks", cls:"http://dkd.de/MegaMurks"}]
                 let state = {};
                 state[name] = ents || [];
                 this.setState(state);
+                
             });
+            //});
         });
     }
 
@@ -81,14 +84,15 @@ export default class Ontoaut extends Component
         return (React.createElement('div', {className: 'ontoaut'},
              React.createElement(Submittor,  {remote: this.remote, update: this.onUpdate.bind(this)}),
              this.entitytypes.map(type => {
-                 return React.createElement('div', {},
-                     React.createElement('h1', {}, type),
+                 return React.createElement('div', {className: 'tableContainer'},
+                     React.createElement('h2', {}, type),
                      React.createElement(Entities, {type: type, entities: this.state[type] || [], remote: this.remote, update: this.onUpdate.bind(this)})
                     );}),
              React.createElement('button', {onClick: this.onUpdate.bind(this), type:'button'}, 'Update!'),
-             React.createElement('h1', {}, 'Manual'),
-             ['subject', 'label', 'cls'].map((name) => {
-                 return React.createElement('span',{key: name, title: name}, name, ':',
+             React.createElement('div', {className: 'divider'}),
+             React.createElement('h2', {}, 'Manual'),
+             ['Subject', 'Label', 'Class'].map((name) => {
+                 return React.createElement('span', {key: name, title: name}, name,
                      React.createElement('input', {
                          type: 'text',
                          name: name,
@@ -97,6 +101,7 @@ export default class Ontoaut extends Component
                      })
                     );
              }),
+             React.createElement('div', {className: 'empty'}),                      
              React.createElement('button', {onClick: this.onSave.bind(this), type:'button'}, 'Save!'),
              React.createElement('button', {onClick: this.onGateReload.bind(this), type:'button'}, 'GATE Reload!')
             ));

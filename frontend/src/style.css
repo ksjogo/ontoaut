@@ -8,3 +8,95 @@
 {
     border-spacing: 15px;
 }
+
+
+body 
+{
+    font-family: "Arial";
+}
+
+h2 {
+    margin-bottom: 15px;
+}
+
+.tableContainer
+{
+    margin-bottom: 40px;
+}
+
+.entityTable 
+{
+    text-align: left;
+}
+
+
+table
+{
+    border-spacing: 0px;
+}
+
+th 
+{
+    background-color: #ececec;
+    padding: 10px;
+    color: #666666;
+}
+
+tr
+{
+    background: #ffffff;
+    text-align: left;
+}
+
+
+
+td 
+{
+    padding: 10px 60px 10px 10px; 
+    border-bottom: 1px solid #ececec;
+}
+
+
+
+button
+{
+    color: #ffffff;
+    padding: 6px 15px;
+    border-radius: 4px;
+    background-color: #FE8B13;
+    border: 0px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+button:hover 
+{
+background-color: #d06e01;
+}
+
+
+input
+{
+    height: 20px;
+    display: inline-block;
+    margin-right: 20px;
+}
+
+
+.empty
+{
+    margin-bottom: 20px;
+}
+
+span
+{
+    color: #666666;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.divider
+{
+    margin: 20px 0px 40px 0px;
+    border-bottom: 1px solid #ccc;
+}

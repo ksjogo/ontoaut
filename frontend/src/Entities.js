@@ -21,13 +21,13 @@ export default class Result extends Component
     render()
     {
         return React.createElement('div', {},
-            React.createElement('table', {},
+            React.createElement('table', {className:'entityTable'},
               React.createElement('tbody', {},
                 React.createElement('tr', {},
                   React.createElement('th', {}, 'Label'),
                   React.createElement('th', {}, 'Subject'),
                   React.createElement('th', {}, 'Class'),
-                  this.unconfirmed? React.createElement('th', {}, 'Confirm') : null
+                  this.unconfirmed? React.createElement('th', {}, 'Action') : null
                  ),
                 this.props.entities.map((ent, i) => {
                     return React.createElement('tr', {key: i},

@@ -1,3 +1,4 @@
+import './style.css';
 import React, { Component } from 'react';
 import Result from './Result';
 
@@ -29,12 +30,13 @@ export default class Submittor extends Component
     render()
     {
         return React.createElement('div', {},
-            React.createElement('h1', {}, 'Submittor'),
+            React.createElement('h2', {}, 'Submittor'),
             React.createElement('textarea', {value: this.state.input, onChange: this.onChange.bind(this)}),
             React.createElement('br', {}),
             React.createElement(Result, {result: this.state.result}),
             React.createElement('br', {}),
-            React.createElement('button', {onClick: this.onSubmit.bind(this)}, 'Submit')
+            React.createElement('button', {onClick: this.onSubmit.bind(this)}, 'Submit'),
+            React.createElement('div', {className: 'divider'})
            );
     }
 }
