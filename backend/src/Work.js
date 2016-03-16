@@ -95,13 +95,15 @@ function emerger(term, cb)
         type = term.tag != 'Noun' ? term.tag : 'Thing',
         cls = base + type,
         uri = base + label.replace(/ /g, '_');
-
-    Store.insertUnconfirmed(uri, label, cls, (err, result) => {
-        if (err)
-            cb(err);
-        else
-            added(term, type, cb);
-    });
+    if (type == 'Value' || type == 'Pronoun')
+        dropped(term, term.tag, cb);
+    else
+        Store.insertUnconfirmed(uri, label, cls, (err, result) => {
+            if (err)
+                cb(err);
+            else
+                added(term, type, cb);
+        });
 }
 
 if (require.main === module)
