@@ -38,17 +38,13 @@ export default class Ontoaut extends Component
     onUpdate()
     {
         this.entitytypes.forEach(name => {
-            //this.remote[name]((err, ents) => {
-            //    if (err)
-            //        console.log(err);
-            setImmediate(() => {
-            let ents = [{label:"test", subject:"http://dkd.de/Murks", cls:"http://dkd.de/MegaMurks"}]
+            this.remote[name]((err, ents) => {
+                if (err)
+                    console.log(err);
                 let state = {};
                 state[name] = ents || [];
                 this.setState(state);
-                
             });
-            //});
         });
     }
 
