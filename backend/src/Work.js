@@ -76,13 +76,13 @@ function terminator(term, cb)
     let label = stripExclamationPointSigns(term.text);
     // no nouns get kicked out
     if (!(term instanceof Noun))
-        dropped(term, 'no noun', cb);
+        dropped(term, term.tag, cb);
     else Store.entitiesForLabel(label, (err, ents) => {
         if (ents)
-            dropped(term, 'known', cb);
+            dropped(term, 'known entity', cb);
         else (new Wordnet()).lookup(label, result => {
             if (result.length > 0)
-                dropped(term, 'wordnetted', cb);
+                dropped(term, 'wordnetted noun', cb);
             else
                 emerger(term, cb);
         });
