@@ -17,7 +17,6 @@
     },
     "homepage": "https://github.com/ksjogo/ontoaut",
     "devDependencies": {
-        "autobind-decorator": "^1.3.3",
         "babel-core": "^6.1.4",
         "babel-loader": "^6.1.0",
         "babel-plugin-react-transform": "github:chicoxyzzy/babel-plugin-react-transform#babel-6",
@@ -35,6 +34,7 @@
         "react-transform-hmr": "^1.0.1",
         "style-loader": "^0.13.0",
         "webpack": "^1.12.4",
-        "webpack-dev-server": "^1.12.1"
+        "webpack-dev-server": "^1.12.1",
+        "query-string": "^4.1.0"
     }
 }

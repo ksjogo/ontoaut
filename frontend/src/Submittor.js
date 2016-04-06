@@ -1,14 +1,17 @@
 import './style.css';
 import React, { Component } from 'react';
 import Result from './Result';
+import QueryString from 'query-string';
 
 export default class Submittor extends Component
 {
     constructor(props)
     {
         super(props);
+        var params =  QueryString.parse(location.search),
+            input = params.passedText || '<span resource="http://dbpedia.org/resource/Berlin" vocab="http://dbpedia.org/ontology/">Berlin</span> is some city. <span resource="http://dbpedia.org/resource/Angela_Merkel" vocab="http://dbpedia.org/ontology/">Angela Merkel</span> is there.';
         this.state = {
-            input: '<span resource="http://dbpedia.org/resource/Berlin" vocab="http://dbpedia.org/ontology/">Berlin</span> is some city. <span resource="http://dbpedia.org/resource/Angela_Merkel" vocab="http://dbpedia.org/ontology/">Angela Merkel</span> is stupid.',
+            input: input,
             result: []
         };
     }
